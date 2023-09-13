@@ -33,7 +33,7 @@ class WorksectionResourceOwner implements ResourceOwnerInterface
      *
      * @return string
      */
-    public function getId(): string
+    public function getId()
     {
 		return $this->response['id'] ?? '';
     }
@@ -44,7 +44,7 @@ class WorksectionResourceOwner implements ResourceOwnerInterface
      *
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         $firstName = $this->response['first_name'] ?: '';
         $lastName = $this->response['last_name'] ?: '';
@@ -56,7 +56,7 @@ class WorksectionResourceOwner implements ResourceOwnerInterface
 	 *
 	 * @return string
 	 */
-	public function getEmail(): string
+	public function getEmail()
 	{
 		return $this->response['email'] ?: '';
 	}
@@ -89,7 +89,7 @@ class WorksectionResourceOwner implements ResourceOwnerInterface
      *
      * @return array
      */
-    public function toArray(): array
+    public function toArray()
     {
         return $this->response;
     }

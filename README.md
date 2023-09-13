@@ -11,59 +11,55 @@ composer require worksection/oauth2-worksection
 ## Usage
 
 ```php
-$worksectionProvider = new \Worksection\OAuth2\Client\Provider\Worksection([
-    'clientId'                => 'yourId',       // The client ID assigned to you by Worksection
-    'clientSecret'            => 'yourSecret',   // The client secret assigned to you by the provider
-    'redirectUri'             => 'https://redirecturl.com/query' // Redirect URI is in the worksection's application
+use Worksection\OAuth2\Client\Provider\Worksection as WorksectionOauth2;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+
+$provider = new WorksectionOauth2([
+    'clientId'                => 'yourId',   
+    'clientSecret'            => 'yourSecret',
+    'redirectUri'             => 'https://redirecturl.com/query'
 ]);
 
-// Get authorization code
-if (!isset($_GET['code'])) {
-    // Get authorization URL
-    $authorizationUrl = $worksectionProvider->getAuthorizationUrl();
 
-    // Get state and store it to the session
-    $_SESSION['oauth2state'] = $worksectionProvider->getState();
+if (!$_REQUEST['code']) {
+    $authorizationUrl = $provider->getAuthorizationUrl();
+    $_SESSION['oauth2state'] = $provider->getState();
 
-    // Redirect user to authorization URL
     header('Location: ' . $authorizationUrl);
-    exit;
-// Check for errors
-} elseif (empty($_GET['state']) || (isset($_SESSION['oauth2state']) && $_GET['state'] !== $_SESSION['oauth2state'])) {
-    if (isset($_SESSION['oauth2state'])) {
+
+} elseif ($_REQUEST['state']) {
+    if ($_REQUEST['state'] !== $_SESSION['oauth2state']) {
+        exit('Invalid state');
+    } else {
         unset($_SESSION['oauth2state']);
     }
-    exit('Invalid state');
-} else {
-    // Get access token
+    
+    // Access token
     try {
-        $accessToken = $worksectionProvider->getAccessToken('authorization_code', ['code' => $_GET['code']]);
-    } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
+        $accessToken = $provider->getAccessToken('authorization_code', ['code' => $_GET['code']]);
+    } catch (IdentityProviderException $e) {
         exit($e->getMessage());
     }
 
-    // Get resource owner
+    // Resource info
     try {
-        $resourceOwner = $worksectionProvider->getResourceOwner($accessToken);
-    } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
+        $resourceOwner = $provider->getResourceOwner($accessToken);
+    } catch (IdentityProviderException $e) {
         exit($e->getMessage());
     }
         
-    // Now you can store the results to session ...
-    $_SESSION['accessToken'] = $accessToken;
-    $_SESSION['resourceOwner'] = $resourceOwner;
         
-    // ... or do some API request
+    // Make some API request using Access Token
     $action = 'get_tasks';
     $page = '/project/100/';
-    $request = $worksectionProvider->getAuthenticatedRequest(
+    $request = $provider->getAuthenticatedRequest(
         'GET',
         'https://domen.worksection.com/api/oauth2?action=' . $action . '&page=' . $page,
         $accessToken
     );
     try {
-        $response = $worksectionProvider->getParsedResponse($request);
-    } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
+        $response = $provider->getParsedResponse($request);
+    } catch (IdentityProviderException $e) {
         exit($e->getMessage());
     }
     var_dump($response);
