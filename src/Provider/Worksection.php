@@ -18,7 +18,7 @@ class Worksection extends AbstractProvider
      *
      * @return string
      */
-    public function getBaseAuthorizationUrl(): string
+    public function getBaseAuthorizationUrl()
     {
         return 'https://worksection.com/oauth2/authorize';
     }
@@ -30,7 +30,7 @@ class Worksection extends AbstractProvider
      * @param array $params
      * @return string
      */
-    public function getBaseAccessTokenUrl(array $params): string
+    public function getBaseAccessTokenUrl(array $params)
 	{
         return 'https://worksection.com/oauth2/token';
     }
@@ -42,7 +42,7 @@ class Worksection extends AbstractProvider
      * @param AccessToken $token
      * @return string
      */
-    public function getResourceOwnerDetailsUrl(AccessToken $token): string
+    public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
         return 'https://worksection.com/oauth2/resource';
     }
@@ -53,7 +53,7 @@ class Worksection extends AbstractProvider
      *
      * @return array
      */
-    protected function getDefaultScopes(): array
+    protected function getDefaultScopes()
     {
         return [];
     }
@@ -86,7 +86,7 @@ class Worksection extends AbstractProvider
      * @param AccessToken $token
      * @return ResourceOwnerInterface
      */
-    protected function createResourceOwner(array $response, AccessToken $token): ResourceOwnerInterface
+    protected function createResourceOwner(array $response, AccessToken $token)
     {
         return new WorksectionResourceOwner($response);
     }
@@ -98,7 +98,7 @@ class Worksection extends AbstractProvider
      * @param array $params
      * @return RequestInterface
      */
-    protected function getAccessTokenRequest(array $params): RequestInterface
+    protected function getAccessTokenRequest(array $params)
     {
         $request = parent::getAccessTokenRequest($params);
         $uri = $request->getUri()
