@@ -22,9 +22,8 @@ $provider = new WorksectionOauth2([
 
 
 if (!$_REQUEST['code']) {
-    $authorizationUrl = $provider->getAuthorizationUrl();
+    $authorizationUrl = $provider->getAuthorizationUrl(['scope' => 'projects_read users_write']);
     $_SESSION['oauth2state'] = $provider->getState();
-
     header('Location: ' . $authorizationUrl);
 
 } elseif ($_REQUEST['state']) {
@@ -47,16 +46,25 @@ if (!$_REQUEST['code']) {
     } catch (IdentityProviderException $e) {
         exit($e->getMessage());
     }
-        
-        
+    
+    //echo 'Access Token: ' . $accessToken->getToken();
+    //echo 'Refresh Token: ' . $accessToken->getRefreshToken();
+    //echo 'Expired in: ' . $accessToken->getExpires();
+    //echo 'Resource Owners ID: ' . $resourceOwner->getId();
+    //echo 'Resource Owners NAME: ' . $resourceOwner->getName();
+    //echo 'Resource Owners EMAIL: ' . $resourceOwner->getEmail();
+
     // Make some API request using Access Token
-    $action = 'get_tasks';
-    $page = '/project/100/';
-    $request = $provider->getAuthenticatedRequest(
-        'GET',
-        'https://domen.worksection.com/api/oauth2?action=' . $action . '&page=' . $page,
-        $accessToken
-    );
+    $options = [
+        'body' => json_encode([
+            'action' => 'get_tasks',
+            'page' => '/project/193/'
+        ]),
+        'headers' => [
+            'Content-Type' => 'application/json'
+        ]
+    ];
+    $request = $provider->getAuthenticatedRequest('POST', 'https://domen.worksection.com/api/oauth2', $accessToken, $options);
     try {
         $response = $provider->getParsedResponse($request);
     } catch (IdentityProviderException $e) {
