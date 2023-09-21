@@ -12,7 +12,25 @@ use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 class Worksection extends AbstractProvider
 {
     use BearerAuthorizationTrait;
-    
+
+
+	/**
+	 * @return string
+	 */
+	public function getUrl(): string
+	{
+		if (defined('LOC')) {
+			$result = 'https://promo-local.worksection.com/';
+		} elseif (defined('DEV')) {
+			$result = 'https://promo-dev.worksection.com/';
+		} else {
+			$result = 'https://worksection.com/';
+		}
+
+		return $result;
+	}
+
+
     /**
      * Get authorization url to begin OAuth flow
      *
@@ -20,7 +38,7 @@ class Worksection extends AbstractProvider
      */
     public function getBaseAuthorizationUrl()
     {
-        return 'https://worksection.com/oauth2/authorize';
+        return $this->getUrl() . 'oauth2/authorize';
     }
 
 
@@ -32,7 +50,7 @@ class Worksection extends AbstractProvider
      */
     public function getBaseAccessTokenUrl(array $params)
 	{
-        return 'https://worksection.com/oauth2/token';
+        return $this->getUrl() . 'oauth2/token';
     }
 
 
@@ -44,7 +62,7 @@ class Worksection extends AbstractProvider
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return 'https://worksection.com/oauth2/resource';
+        return $this->getUrl() . 'oauth2/resource';
     }
 
 
