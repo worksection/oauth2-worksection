@@ -13,21 +13,27 @@ class Worksection extends AbstractProvider
 {
     use BearerAuthorizationTrait;
 
+	/**
+	 * @var string
+	 */
+	public $url = 'https://worksection.com/';
+
+
+	/**
+	 * @param string $url
+	 */
+	public function setUrl(string $url): void
+	{
+		$this->url = $url;
+	}
+
 
 	/**
 	 * @return string
 	 */
 	public function getUrl(): string
 	{
-		if (defined('LOC')) {
-			$result = 'https://promo-local.worksection.com/';
-		} elseif (defined('DEV')) {
-			$result = 'https://promo-dev.worksection.com/';
-		} else {
-			$result = 'https://worksection.com/';
-		}
-
-		return $result;
+		return $this->url;
 	}
 
 
