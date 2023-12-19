@@ -1,6 +1,7 @@
 # Worksection Provider for OAuth 2.0 Client
 
 This package provides Worksection OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
+Worksection FAQ about [OAuth2.0](https://worksection.com/en/faq/oauth.html)
 
 ## Installation
 
@@ -53,6 +54,7 @@ if (!$_REQUEST['code']) {
     //echo 'Resource Owners ID: ' . $resourceOwner->getId();
     //echo 'Resource Owners NAME: ' . $resourceOwner->getName();
     //echo 'Resource Owners EMAIL: ' . $resourceOwner->getEmail();
+    //echo 'Resource Owners Account URL: ' . $resourceOwner->getAccountUrl();
 
     // Make some API request using Access Token
     $options = [

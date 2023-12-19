@@ -62,6 +62,15 @@ class WorksectionResourceOwner implements ResourceOwnerInterface
 	}
 
 
+	/**
+	 * @return string
+	 */
+	public function getAccountUrl()
+	{
+		return $this->response['account_url'] ?: '';
+	}
+
+
     /**
      * Get resource owner username
      *
