@@ -9,7 +9,7 @@
             "role": "Distributor"
         }
     ],
-    "version": "1.4.1",
+    "version": "1.4.2",
     "require": {
         "php": ">=7.2",
         "league/oauth2-client": "^2.0"
