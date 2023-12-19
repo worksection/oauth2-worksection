@@ -50,6 +50,7 @@ if (!$_REQUEST['code']) {
     
     //echo 'Access Token: ' . $accessToken->getToken();
     //echo 'Refresh Token: ' . $accessToken->getRefreshToken();
+    //echo 'Account URL: ' . $accessToken->getValues()['account_url'];
     //echo 'Expired in: ' . $accessToken->getExpires();
     //echo 'Resource Owners ID: ' . $resourceOwner->getId();
     //echo 'Resource Owners NAME: ' . $resourceOwner->getName();
