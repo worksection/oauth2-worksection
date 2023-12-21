@@ -67,7 +67,7 @@ if (!$_REQUEST['code']) {
             'Content-Type' => 'application/json'
         ]
     ];
-    $request = $provider->getAuthenticatedRequest('POST', 'https://domen.worksection.com/api/oauth2', $accessToken, $options);
+    $request = $provider->getAuthenticatedRequest('POST', $resourceOwner->getAccountUrl() . '/api/oauth2', $accessToken, $options);
     try {
         $response = $provider->getParsedResponse($request);
     } catch (IdentityProviderException $e) {
